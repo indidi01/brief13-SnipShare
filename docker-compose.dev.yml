@@ -1,0 +1,83 @@
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:18-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    env_file:
+      - .env
+    # ports:
+    #   - "${DB_PORT}:5432"
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    #   - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # networks:
+    #   - snipshare-network
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+  # Administration Database
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "${ADMINER_PORT}"
+    depends_on:
+      - database
+    env_file:
+      - .env
+    # networks:
+    #   - snipshare-network
+
+  # Backend API (Node.js + Express + TypeScript)
+  backend:
+    build:
+      context: ./backend
+      # dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_RT_TTL: ${JWT_RT_TTL}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - database
+    # networks:
+    #   - snipshare-network
+    # command: npm run dev
+
+  # Frontend (React + TypeScript)
+  frontend:
+    build:
+      context: ./frontend
+      # dockerfile: Dockerfile
+    restart: always
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL}
+    ports:
+      - "${FRONTEND_PORT}"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    # networks:
+    #   - snipshare-network
+    # command: npm run dev

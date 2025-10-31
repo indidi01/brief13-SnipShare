@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charte Graphique SnipShare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 50px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #4F46E5;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 50px;
+        }
+        
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 50px 0 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4F46E5;
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #475569;
+            margin: 30px 0 15px;
+        }
+        
+        /* Palette de couleurs */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .color-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .color-preview {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .color-info {
+            padding: 15px;
+            background: white;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .color-usage {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        
+        /* Typographie */
+        .typo-example {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #4F46E5;
+        }
+        
+        .font-name {
+            font-size: 14px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .typo-h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .typo-h2 {
+            font-size: 36px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .typo-h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .typo-body {
+            font-size: 16px;
+            font-weight: 400;
+            margin: 10px 0;
+            max-width: 600px;
+        }
+        
+        /* Boutons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4338CA;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #10B981;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+        }
+        
+        .btn-outline:hover {
+            background: #4F46E5;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+        
+        /* Composants UI */
+        .component-examples {
+            display: grid;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .card-example {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .snippet-preview {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .tag-example {
+            display: inline-block;
+            background: #EDE9FE;
+            color: #6B21A8;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-public {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .badge-private {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .badge-unlisted {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        /* Iconographie */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .icon-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .icon-item:hover {
+            background: #e0e7ff;
+        }
+        
+        .icon-symbol {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .icon-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        /* Espacement */
+        .spacing-example {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .spacing-box {
+            background: #4F46E5;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        /* Accessibilité */
+        .accessibility-note {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .accessibility-note strong {
+            color: #92400E;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+            
+            h2 {
+                font-size: 26px;
+            }
+            
+            .color-grid, .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📘 SnipShare</h1>
+        <p class="subtitle">Charte Graphique - Style Convivial & Accessible</p>
+        
+        <!-- Palette de couleurs -->
+        <h2>🎨 Palette de couleurs</h2>
+        
+        <h3>Couleurs principales</h3>
+        <div class="color-grid">
+            <div class="color-card">
+                <div class="color-preview" style="background: #4F46E5;">Indigo</div>
+                <div class="color-info">
+                    <div class="color-name">Primaire - Indigo</div>
+                    <div class="color-hex">#4F46E5</div>
+                    <div class="color-usage">Boutons, liens, éléments interactifs</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #10B981;">Émeraude</div>
+                <div class="color-info">
+                    <div class="color-name">Secondaire - Émeraude</div>
+                    <div class="color-hex">#10B981</div>
+                    <div class="color-usage">Succès, validation, actions positives</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #F59E0B;">Ambre</div>
+                <div class="color-info">
+                    <div class="color-name">Accent - Ambre</div>
+                    <div class="color-hex">#F59E0B</div>
+                    <div class="color-usage">Alertes, notifications importantes</div>
+                </div>
+            </div>
+        </div>
+        
+        <h3>Couleurs neutres</h3>
+        <div class="color-grid">
+            <div class="color-card">
+                <div class="color-preview" style="background: #1e293b;">Ardoise</div>
+                <div class="color-info">
+                    <div class="color-name">Texte principal</div>
+                    <div class="color-hex">#1E293B</div>
+                    <div class="color-usage">Titres, texte principal</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #64748b;">Gris</div>
+                <div class="color-info">
+                    <div class="color-name">Texte secondaire</div>
+                    <div class="color-hex">#64748B</div>
+                    <div class="color-usage">Descriptions, métadonnées</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #f8fafc; color: #1e293b;">Blanc cassé</div>
+                <div class="color-info">
+                    <div class="color-name">Fond</div>
+                    <div class="color-hex">#F8FAFC</div>
+                    <div class="color-usage">Arrière-plans, zones claires</div>
+                </div>
+            </div>
+        </div>
+        
+        <h3>Couleurs sémantiques</h3>
+        <div class="color-grid">
+            <div class="color-card">
+                <div class="color-preview" style="background: #EF4444;">Rouge</div>
+                <div class="color-info">
+                    <div class="color-name">Erreur / Danger</div>
+                    <div class="color-hex">#EF4444</div>
+                    <div class="color-usage">Suppression, erreurs</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #3B82F6;">Bleu</div>
+                <div class="color-info">
+                    <div class="color-name">Information</div>
+                    <div class="color-hex">#3B82F6</div>
+                    <div class="color-usage">Informations, aide</div>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-preview" style="background: #8B5CF6;">Violet</div>
+                <div class="color-info">
+                    <div class="color-name">Tags / Catégories</div>
+                    <div class="color-hex">#8B5CF6</div>
+                    <div class="color-usage">Tags, labels</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Typographie -->
+        <h2>✍️ Typographie</h2>
+        
+        <div class="typo-example">
+            <div class="font-name">Police principale : Inter / System UI</div>
+            <div class="typo-h1" style="color: #1e293b;">Titre principal (H1) - 48px Bold</div>
+            <div class="typo-h2" style="color: #475569;">Titre section (H2) - 36px Semibold</div>
+            <div class="typo-h3" style="color: #64748b;">Sous-titre (H3) - 24px Semibold</div>
+            <div class="typo-body" style="color: #1e293b;">
+                Corps de texte (Body) - 16px Regular. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Utilisé pour les paragraphes et le contenu principal.
+            </div>
+        </div>
+        
+        <div class="typo-example">
+            <div class="font-name">Police code : Courier New / Monospace</div>
+            <div class="snippet-preview">
+function hello() {<br>
+&nbsp;&nbsp;console.log("Hello SnipShare!");<br>
+}
+            </div>
+        </div>
+        
+        <!-- Boutons -->
+        <h2>🔘 Boutons</h2>
+        <div class="accessibility-note">
+            <strong>⚠️ Accessibilité :</strong> Tous les boutons ont une taille minimale de 48px pour être facilement cliquables sur mobile et respecter les normes WCAG.
+        </div>
+        
+        <div class="button-grid">
+            <button class="btn btn-primary">Bouton Principal</button>
+            <button class="btn btn-secondary">Bouton Secondaire</button>
+            <button class="btn btn-outline">Bouton Outline</button>
+            <button class="btn btn-danger">Bouton Danger</button>
+        </div>
+        
+        <!-- Composants -->
+        <h2>🧩 Composants UI</h2>
+        
+        <h3>Carte de snippet</h3>
+        <div class="card-example">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                <div>
+                    <h3 style="margin: 0; color: #1e293b;">Fonction de validation email</h3>
+                    <p style="color: #64748b; font-size: 14px; margin: 5px 0;">Par @philippe_lambert • Il y a 2 heures</p>
+                </div>
+                <span class="badge badge-public">Public</span>
+            </div>
+            
+            <div class="snippet-preview">
+const validateEmail = (email) => {<br>
+&nbsp;&nbsp;return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);<br>
+};
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <span class="tag-example">JavaScript</span>
+                <span class="tag-example">Validation</span>
+                <span class="tag-example">Regex</span>
+            </div>
+            
+            <div style="display: flex; gap: 20px; margin-top: 20px; color: #64748b; font-size: 14px;">
+                <span>❤️ 24 likes</span>
+                <span>💬 5 commentaires</span>
+            </div>
+        </div>
+        
+        <h3>Badges de visibilité</h3>
+        <div style="margin: 20px 0;">
+            <span class="badge badge-public">Public</span>
+            <span class="badge badge-private">Privé</span>
+            <span class="badge badge-unlisted">Non-répertorié</span>
+        </div>
+        
+        <h3>Tags</h3>
+        <div>
+            <span class="tag-example">JavaScript</span>
+            <span class="tag-example">Python</span>
+            <span class="tag-example">React</span>
+            <span class="tag-example">Node.js</span>
+            <span class="tag-example">CSS</span>
+        </div>
+        
+        <!-- Iconographie -->
+        <h2>🎯 Iconographie</h2>
+        <p style="margin-bottom: 20px; color: #64748b;">Icônes simples et claires, style line/outline pour cohérence</p>
+        
+        <div class="icon-grid">
+            <div class="icon-item">
+                <div class="icon-symbol">📝</div>
+                <div class="icon-label">Créer</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-symbol">❤️</div>
+                <div class="icon-label">Liker</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-symbol">💬</div>
+                <div class="icon-label">Commenter</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-symbol">🔍</div>
+                <div class="icon-label">Rechercher</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-symbol">👤</div>
+                <div class="icon-label">Profil</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-symbol">⚙️</div>
+                <div class="icon-label">Paramètres</div>
+            </div>
+        </div>
+        
+        <!-- Espacement -->
+        <h2>📏 Espacement & Grille</h2>
+        <div class="spacing-example">
+            <div class="spacing-box" style="padding: 8px;">Petit (8px)</div>
+            <div class="spacing-box" style="padding: 16px;">Moyen (16px)</div>
+            <div class="spacing-box" style="padding: 24px;">Grand (24px)</div>
+            <div class="spacing-box" style="padding: 32px;">Extra-large (32px)</div>
+        </div>
+        
+        <h3>Règles d'espacement</h3>
+        <ul style="color: #64748b; margin-left: 20px;">
+            <li>Espacement entre éléments : multiples de 8px (8, 16, 24, 32, 48)</li>
+            <li>Marges internes des cartes : 20-25px</li>
+            <li>Gouttières de grille : 20px</li>
+            <li>Largeur maximale du contenu : 1200px</li>
+        </ul>
+        
+        <!-- Accessibilité -->
+        <h2>♿ Règles d'accessibilité</h2>
+        
+        <div class="accessibility-note">
+            <strong>✅ Contraste minimum :</strong> Ratio de 4.5:1 pour le texte normal, 3:1 pour le texte large (WCAG AA)
+        </div>
+        
+        <div class="accessibility-note">
+            <strong>✅ Taille des zones cliquables :</strong> Minimum 48x48px pour tous les boutons et liens
+        </div>
+        
+        <div class="accessibility-note">
+            <strong>✅ Responsive :</strong> Interface adaptée de 320px (mobile) à 1920px (desktop)
+        </div>
+        
+        <div class="accessibility-note">
+            <strong>✅ Navigation clavier :</strong> Tous les éléments interactifs accessibles au clavier (Tab, Enter, Espace)
+        </div>
+        
+        <!-- Responsive -->
+        <h2>📱 Breakpoints Responsive</h2>
+        <ul style="color: #64748b; margin-left: 20px; line-height: 2;">
+            <li><strong>Mobile :</strong> 320px - 767px</li>
+            <li><strong>Tablette :</strong> 768px - 1023px</li>
+            <li><strong>Desktop :</strong> 1024px et plus</li>
+        </ul>
+        
+        <!-- Règles d'usage -->
+        <h2>📖 Règles d'usage</h2>
+        
+        <div style="background: #f8fafc; padding: 25px; border-radius: 12px; margin: 20px 0;">
+            <h3 style="margin-top: 0;">✅ À faire</h3>
+            <ul style="color: #64748b; margin-left: 20px; line-height: 2;">
+                <li>Utiliser la couleur primaire (Indigo) pour les actions principales</li>
+                <li>Maintenir des espaces blancs généreux pour la lisibilité</li>
+                <li>Utiliser les badges de couleur pour la visibilité des snippets</li>
+                <li>Ajouter des états hover sur tous les éléments cliquables</li>
+                <li>Afficher des messages de feedback clairs (succès, erreur)</li>
+            </ul>
+            
+            <h3>❌ À éviter</h3>
+            <ul style="color: #64748b; margin-left: 20px; line-height: 2;">
+                <li>Surcharger l'interface avec trop de couleurs vives</li>
+                <li>Utiliser des tailles de police inférieures à 14px</li>
+                <li>Créer des boutons plus petits que 48x48px</li>
+                <li>Mélanger plusieurs styles de tags ou badges</li>
+                <li>Oublier les états de focus pour la navigation clavier</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 60px; padding-top: 30px; border-top: 2px solid #e2e8f0; color: #64748b;">
+            <p><strong>📘 SnipShare - Charte Graphique v1.0</strong></p>
+            <p style="font-size: 14px; margin-top: 10px;">Document validé pour la Phase 1 - Conception</p>
+        </div>
+    </div>
+</body>
+</html>

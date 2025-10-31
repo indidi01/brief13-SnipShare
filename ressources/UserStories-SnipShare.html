@@ -1,0 +1,1352 @@
+<!DOCTYPE html> <html lang="fr"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>User Stories - SnipShare</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+        padding: 20px;
+    }
+    
+    .header {
+        max-width: 1400px;
+        margin: 0 auto 40px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 42px;
+        font-weight: 700;
+        color: #4F46E5;
+        margin-bottom: 12px;
+    }
+    
+    .header p {
+        color: #64748b;
+        font-size: 18px;
+    }
+    
+    .stats {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin: 32px 0;
+        flex-wrap: wrap;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 20px 32px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        color: #4F46E5;
+    }
+    
+    .stat-label {
+        color: #64748b;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+    
+    .filters {
+        max-width: 1400px;
+        margin: 0 auto 32px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .filter-btn {
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .filter-btn:hover {
+        border-color: #4F46E5;
+        color: #4F46E5;
+    }
+    
+    .filter-btn.active {
+        background: #4F46E5;
+        color: white;
+        border-color: #4F46E5;
+    }
+    
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .category {
+        margin-bottom: 48px;
+    }
+    
+    .category-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .category-icon {
+        font-size: 36px;
+    }
+    
+    .category-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+    
+    .category-count {
+        background: #EDE9FE;
+        color: #6B21A8;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 24px;
+    }
+    
+    .user-story-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 4px solid;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    
+    .user-story-card:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        transform: translateY(-4px);
+    }
+    
+    .user-story-card.must-have {
+        border-left-color: #EF4444;
+    }
+    
+    .user-story-card.should-have {
+        border-left-color: #F59E0B;
+    }
+    
+    .user-story-card.could-have {
+        border-left-color: #10B981;
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 16px;
+        gap: 12px;
+    }
+    
+    .card-id {
+        font-size: 13px;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.5px;
+    }
+    
+    .priority-badge {
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    
+    .priority-badge.must-have {
+        background: #FEE2E2;
+        color: #DC2626;
+    }
+    
+    .priority-badge.should-have {
+        background: #FEF3C7;
+        color: #D97706;
+    }
+    
+    .priority-badge.could-have {
+        background: #D1FAE5;
+        color: #059669;
+    }
+    
+    .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 16px;
+        line-height: 1.3;
+    }
+    
+    .user-story {
+        background: #f8fafc;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        font-size: 15px;
+        line-height: 1.6;
+        color: #475569;
+    }
+    
+    .user-story strong {
+        color: #4F46E5;
+        font-weight: 600;
+    }
+    
+    .criteria-section {
+        margin-top: 16px;
+    }
+    
+    .criteria-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .criteria-list {
+        list-style: none;
+    }
+    
+    .criteria-item {
+        padding: 8px 0;
+        font-size: 14px;
+        color: #475569;
+        display: flex;
+        align-items: start;
+        gap: 8px;
+    }
+    
+    .criteria-item::before {
+        content: "✅";
+        flex-shrink: 0;
+    }
+    
+    .card-footer {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e2e8f0;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #EDE9FE;
+        color: #6B21A8;
+    }
+    
+    .sprint-tag {
+        background: #DBEAFE;
+        color: #1E40AF;
+    }
+    
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .modal.active {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+        margin: 40px auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 24px;
+    }
+    
+    .close-btn {
+        background: #f8fafc;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    
+    .close-btn:hover {
+        background: #e2e8f0;
+    }
+    
+    .tests-section {
+        background: #FEF3C7;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+    }
+    
+    .tests-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #92400E;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+    
+    .test-item {
+        padding: 6px 0;
+        font-size: 14px;
+        color: #78350F;
+        display: flex;
+        align-items: start;
+        gap: 8px;
+    }
+    
+    .test-item::before {
+        content: "🧪";
+        flex-shrink: 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+        }
+        
+        .stats {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .modal-content {
+            padding: 24px;
+            margin: 20px;
+        }
+    }
+    
+    .legend {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 32px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .legend-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: #1e293b;
+    }
+    
+    .legend-items {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .legend-color {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+    }
+    
+    .legend-color.must {
+        background: #EF4444;
+    }
+    
+    .legend-color.should {
+        background: #F59E0B;
+    }
+    
+    .legend-color.could {
+        background: #10B981;
+    }
+</style>
+
+</head> <body> <div class="header"> <h1>📖 User Stories - SnipShare</h1> <p>Conception fonctionnelle du projet • 25 user stories</p> </div>
+
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-number">17</div>
+        <div class="stat-label">🔴 Must Have</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">7</div>
+        <div class="stat-label">🟠 Should Have</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">🟢 Could Have</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="legend">
+        <div class="legend-title">📌 Légende des priorités</div>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-color must"></div>
+                <span><strong>Must Have</strong> - Essentiel au fonctionnement</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color should"></div>
+                <span><strong>Should Have</strong> - Important mais pas bloquant</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color could"></div>
+                <span><strong>Could Have</strong> - Nice to have</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterCards('all')">Toutes (25)</button>
+        <button class="filter-btn" onclick="filterCards('must-have')">🔴 Must Have (17)</button>
+        <button class="filter-btn" onclick="filterCards('should-have')">🟠 Should Have (7)</button>
+        <button class="filter-btn" onclick="filterCards('could-have')">🟢 Could Have (1)</button>
+    </div>
+    
+    <!-- Catégorie 1: Authentification -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">🔐</div>
+            <h2 class="category-title">Authentification & Compte</h2>
+            <span class="category-count">4 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us01')">
+                <div class="card-header">
+                    <span class="card-id">US01</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Inscription utilisateur</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> visiteur, <strong>je veux</strong> créer un compte avec mon email et un mot de passe, <strong>afin de</strong> pouvoir accéder à la plateforme.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 1</span>
+                    <span class="tag">Authentification</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us02')">
+                <div class="card-header">
+                    <span class="card-id">US02</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Connexion utilisateur</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> visiteur, <strong>je veux</strong> me connecter avec mon email et mot de passe, <strong>afin de</strong> accéder à mon compte.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 1</span>
+                    <span class="tag">Authentification</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us03')">
+                <div class="card-header">
+                    <span class="card-id">US03</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Déconnexion</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur authentifié, <strong>je veux</strong> me déconnecter, <strong>afin de</strong> sécuriser mon compte.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 1</span>
+                    <span class="tag">Authentification</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us04')">
+                <div class="card-header">
+                    <span class="card-id">US04</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Modifier son profil</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur authentifié, <strong>je veux</strong> modifier mon email et mot de passe, <strong>afin de</strong> maintenir mes informations à jour.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 5</span>
+                    <span class="tag">Profil</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 2: Gestion Snippets -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">📝</div>
+            <h2 class="category-title">Gestion des Snippets</h2>
+            <span class="category-count">5 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us05')">
+                <div class="card-header">
+                    <span class="card-id">US05</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Créer un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur authentifié, <strong>je veux</strong> créer un snippet avec titre, code et paramètres, <strong>afin de</strong> partager mon code.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 1</span>
+                    <span class="tag">CRUD</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us06')">
+                <div class="card-header">
+                    <span class="card-id">US06</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Voir le détail d'un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur authentifié, <strong>je veux</strong> voir le détail d'un snippet, <strong>afin de</strong> consulter le code et les commentaires.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 1</span>
+                    <span class="tag">CRUD</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us07')">
+                <div class="card-header">
+                    <span class="card-id">US07</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Modifier un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> créateur, <strong>je veux</strong> modifier mon snippet, <strong>afin de</strong> corriger ou améliorer le code.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 2</span>
+                    <span class="tag">CRUD</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us08')">
+                <div class="card-header">
+                    <span class="card-id">US08</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Supprimer un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> créateur, <strong>je veux</strong> supprimer mon snippet, <strong>afin de</strong> retirer du contenu obsolète.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 2</span>
+                    <span class="tag">CRUD</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us09')">
+                <div class="card-header">
+                    <span class="card-id">US09</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Lister mes snippets</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> voir tous mes snippets, <strong>afin de</strong> les gérer facilement.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 2</span>
+                    <span class="tag">CRUD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 3: Recherche -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">🔍</div>
+            <h2 class="category-title">Recherche & Découverte</h2>
+            <span class="category-count">5 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us10')">
+                <div class="card-header">
+                    <span class="card-id">US10</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Explorer les snippets publics</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> voir tous les snippets publics, <strong>afin de</strong> découvrir du code réutilisable.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 3</span>
+                    <span class="tag">Découverte</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us11')">
+                <div class="card-header">
+                    <span class="card-id">US11</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Rechercher des snippets</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> rechercher par mot-clé, <strong>afin de</strong> trouver du code spécifique.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 3</span>
+                    <span class="tag">Recherche</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us12')">
+                <div class="card-header">
+                    <span class="card-id">US12</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Filtrer par langage</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> filtrer par langage, <strong>afin de</strong> voir les snippets pertinents.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 3</span>
+                    <span class="tag">Filtres</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us13')">
+                <div class="card-header">
+                    <span class="card-id">US13</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Filtrer par tags</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> filtrer par tags, <strong>afin de</strong> trouver du code sur un sujet précis.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 3</span>
+                    <span class="tag">Filtres</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us14')">
+                <div class="card-header">
+                    <span class="card-id">US14</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Trier les snippets</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> trier par popularité ou date, <strong>afin de</strong> trouver les meilleurs snippets.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 3</span>
+                    <span class="tag">Tri</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 4: Interactions -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">❤️</div>
+            <h2 class="category-title">Interactions Sociales</h2>
+            <span class="category-count">4 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us15')">
+                <div class="card-header">
+                    <span class="card-id">US15</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Liker un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> liker un snippet, <strong>afin de</strong> montrer mon appréciation.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 4</span>
+                    <span class="tag">Likes</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us16')">
+                <div class="card-header">
+                    <span class="card-id">US16</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Voir mes snippets likés</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> voir mes snippets likés, <strong>afin de</strong> retrouver mes favoris.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 4</span>
+                    <span class="tag">Likes</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us17')">
+                <div class="card-header">
+                    <span class="card-id">US17</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Commenter un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> commenter un snippet, <strong>afin de</strong> poser des questions ou donner mon avis.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 4</span>
+                    <span class="tag">Commentaires</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us18')">
+                <div class="card-header">
+                    <span class="card-id">US18</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Supprimer son commentaire</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> supprimer mes commentaires, <strong>afin de</strong> corriger une erreur.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 4</span>
+                    <span class="tag">Commentaires</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 5: Profil -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">👤</div>
+            <h2 class="category-title">Profil Utilisateur</h2>
+            <span class="category-count">2 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us19')">
+                <div class="card-header">
+                    <span class="card-id">US19</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Voir mon profil</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> voir mon profil avec mes statistiques, <strong>afin de</strong> suivre mon activité.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 5</span>
+                    <span class="tag">Profil</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card could-have" data-priority="could-have" onclick="openModal('us20')">
+                <div class="card-header">
+                    <span class="card-id">US20</span>
+                    <span class="priority-badge could-have">🟢 COULD HAVE</span>
+                </div>
+                <h3 class="card-title">Voir le profil d'un autre utilisateur</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> voir le profil public d'un autre utilisateur, <strong>afin de</strong> découvrir ses snippets.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Bonus</span>
+                    <span class="tag">Profil</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 6: UX -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">🎨</div>
+            <h2 class="category-title">Interface & Expérience</h2>
+            <span class="category-count">3 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us21')">
+                <div class="card-header">
+                    <span class="card-id">US21</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Navigation responsive</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> une interface mobile, <strong>afin de</strong> accéder depuis mon smartphone.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 5</span>
+                    <span class="tag">Responsive</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us22')">
+                <div class="card-header">
+                    <span class="card-id">US22</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Copier le code</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> copier rapidement le code, <strong>afin de</strong> l'utiliser dans mon projet.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 5</span>
+                    <span class="tag">UX</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card should-have" data-priority="should-have" onclick="openModal('us23')">
+                <div class="card-header">
+                    <span class="card-id">US23</span>
+                    <span class="priority-badge should-have">🟠 SHOULD HAVE</span>
+                </div>
+                <h3 class="card-title">Partager un snippet</h3>
+                <div class="user-story">
+                    <strong>En tant qu'</strong>utilisateur, <strong>je veux</strong> partager le lien d'un snippet, <strong>afin de</strong> le communiquer à un collègue.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 5</span>
+                    <span class="tag">Partage</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Catégorie 7: Sécurité -->
+    <div class="category">
+        <div class="category-header">
+            <div class="category-icon">🔒</div>
+            <h2 class="category-title">Sécurité & Visibilité</h2>
+            <span class="category-count">2 US</span>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us24')">
+                <div class="card-header">
+                    <span class="card-id">US24</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Gérer la visibilité</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> créateur, <strong>je veux</strong> définir la visibilité, <strong>afin de</strong> contrôler qui peut voir mon snippet.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 2</span>
+                    <span class="tag">Sécurité</span>
+                </div>
+            </div>
+            
+            <div class="user-story-card must-have" data-priority="must-have" onclick="openModal('us25')">
+                <div class="card-header">
+                    <span class="card-id">US25</span>
+                    <span class="priority-badge must-have">🔴 MUST HAVE</span>
+                </div>
+                <h3 class="card-title">Sécurité des routes API</h3>
+                <div class="user-story">
+                    <strong>En tant que</strong> système, <strong>je veux</strong> protéger les routes sensibles, <strong>afin de</strong> garantir la sécurité des données.
+                </div>
+                <div class="card-footer">
+                    <span class="tag sprint-tag">Sprint 2</span>
+                    <span class="tag">Backend</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour les détails -->
+<div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <div>
+                <h2 id="modal-title" style="font-size: 28px; font-weight: 700; color: #1e293b; margin-bottom: 8px;"></h2>
+                <p id="modal-id" style="color: #64748b; font-size: 14px;"></p>
+            </div>
+            <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<script>
+    const userStories = {
+        us01: {
+            title: "Inscription utilisateur",
+            id: "US01 - Must Have",
+            story: "En tant que visiteur, je veux créer un compte avec mon email et un mot de passe, afin de pouvoir accéder à la plateforme et créer des snippets.",
+            criteria: [
+                "Formulaire avec : pseudo (unique), email (unique), mot de passe, confirmation",
+                "Validation email : format valide",
+                "Validation mot de passe : min 8 car., majuscule, minuscule, chiffre",
+                "Message d'erreur si pseudo/email déjà utilisé",
+                "Message d'erreur si mots de passe différents",
+                "Redirection après inscription réussie",
+                "Mot de passe hashé avec argon2"
+            ],
+            tests: [
+                "Tester avec un mot de passe faible (doit refuser)",
+                "Tester avec un email invalide (doit refuser)",
+                "Tester avec un pseudo déjà existant (doit refuser)"
+            ]
+        },
+        us02: {
+            title: "Connexion utilisateur",
+            id: "US02 - Must Have",
+            story: "En tant que visiteur, je veux me connecter avec mon email et mot de passe, afin d'accéder à mon compte et gérer mes snippets.",
+            criteria: [
+                "Formulaire avec : email, mot de passe",
+                "Vérification des identifiants",
+                "Message d'erreur si identifiants incorrects",
+                "Génération d'un token/cookie de session sécurisé",
+                "Redirection vers Explorer après connexion",
+                "Session maintenue lors de la navigation"
+            ],
+            tests: [
+                "Tester avec identifiants invalides",
+                "Vérifier que le cookie est créé",
+                "Vérifier la persistance de la session"
+            ]
+        },
+        us03: {
+            title: "Déconnexion",
+            id: "US03 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux me déconnecter, afin de sécuriser mon compte.",
+            criteria: [
+                "Bouton Déconnexion visible dans le header",
+                "Suppression du token/cookie",
+                "Redirection vers la page d'accueil",
+                "Impossibilité d'accéder aux pages authentifiées après"
+            ],
+            tests: []
+        },
+        us04: {
+            title: "Modifier son profil",
+            id: "US04 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux modifier mon email et mot de passe, afin de maintenir mes informations à jour.",
+            criteria: [
+                "Page paramètres accessible depuis le profil",
+                "Formulaire : email, mot de passe actuel, nouveau mot de passe",
+                "Validation de l'ancien mot de passe",
+                "Message de confirmation après modification",
+                "Validation des mêmes règles que l'inscription"
+            ],
+            tests: []
+        },
+        us05: {
+            title: "Créer un snippet",
+            id: "US05 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux créer un snippet avec titre, code et paramètres, afin de partager mon code avec mes collègues.",
+            criteria: [
+                "Formulaire : titre (requis), code (requis), langage (requis), description (optionnel), tags (max 5), visibilité (requis)",
+                "Visibilité : Public / Privé / Non-répertorié",
+                "Validation : tous les champs requis remplis",
+                "Sauvegarde avec date de création",
+                "Redirection vers la page de détail",
+                "Message de confirmation"
+            ],
+            tests: [
+                "Créer sans titre (doit refuser)",
+                "Créer avec plus de 5 tags (doit limiter)",
+                "Vérifier l'association à l'utilisateur"
+            ]
+        },
+        us06: {
+            title: "Voir le détail d'un snippet",
+            id: "US06 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir le détail complet d'un snippet, afin de consulter le code, la description et les commentaires.",
+            criteria: [
+                "Affichage : titre, code (coloration syntaxique), langage, description, tags, date, auteur",
+                "Nombre de likes et commentaires",
+                "Bouton Copier le code fonctionnel",
+                "Snippet privé : accessible uniquement par créateur",
+                "Snippet non-répertorié : accessible par lien direct",
+                "Snippet public : accessible par tous"
+            ],
+            tests: []
+        },
+        us07: {
+            title: "Modifier un snippet",
+            id: "US07 - Must Have",
+            story: "En tant que créateur de snippet, je veux modifier mon snippet, afin de corriger ou améliorer le code.",
+            criteria: [
+                "Bouton Modifier visible uniquement pour le créateur",
+                "Formulaire pré-rempli",
+                "Modification de tous les champs sauf auteur",
+                "Mise à jour de la date de modification",
+                "Redirection vers détail",
+                "Message de confirmation"
+            ],
+            tests: [
+                "Vérifier qu'un autre utilisateur ne peut pas modifier",
+                "Vérifier la mise à jour de la date"
+            ]
+        },
+        us08: {
+            title: "Supprimer un snippet",
+            id: "US08 - Must Have",
+            story: "En tant que créateur de snippet, je veux supprimer mon snippet, afin de retirer du contenu obsolète ou erroné.",
+            criteria: [
+                "Bouton Supprimer visible uniquement pour le créateur",
+                "Message de confirmation avant suppression",
+                "Suppression définitive + likes/commentaires",
+                "Redirection vers Mes snippets",
+                "Message de confirmation"
+            ],
+            tests: [
+                "Vérifier qu'un autre utilisateur ne peut pas supprimer",
+                "Vérifier que likes et commentaires sont supprimés"
+            ]
+        },
+        us09: {
+            title: "Lister mes snippets",
+            id: "US09 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir la liste de tous mes snippets, afin de les gérer facilement.",
+            criteria: [
+                "Page Mes snippets accessible depuis le header",
+                "Tous les snippets créés (publics, privés, non-répertoriés)",
+                "Affichage : titre, aperçu, likes/commentaires, visibilité",
+                "Tri par date de création (plus récents)",
+                "Clic pour voir le détail"
+            ],
+            tests: []
+        },
+        us10: {
+            title: "Explorer les snippets publics",
+            id: "US10 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir tous les snippets publics de la plateforme, afin de découvrir du code réutilisable.",
+            criteria: [
+                "Page Explorer affichant tous les snippets publics",
+                "Affichage : titre, auteur, aperçu, tags, likes/commentaires",
+                "Tri par défaut : plus récents",
+                "Grille responsive"
+            ],
+            tests: []
+        },
+        us11: {
+            title: "Rechercher des snippets",
+            id: "US11 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux rechercher des snippets par mot-clé, afin de trouver rapidement du code spécifique.",
+            criteria: [
+                "Barre de recherche sur Explorer",
+                "Recherche dans : titre, tags, langage, utilisateur",
+                "Nombre de résultats affiché",
+                "Résultats en temps réel ou après validation",
+                "Message si aucun résultat"
+            ],
+            tests: [
+                "Rechercher par titre",
+                "Rechercher par tag",
+                "Rechercher par langage",
+                "Rechercher par pseudo"
+            ]
+        },
+        us12: {
+            title: "Filtrer par langage",
+            id: "US12 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux filtrer les snippets par langage de programmation, afin de ne voir que les snippets pertinents.",
+            criteria: [
+                "Filtres cliquables par langage",
+                "Mise à jour instantanée",
+                "Sélection multiple possible",
+                "Indication visuelle du filtre actif"
+            ],
+            tests: []
+        },
+        us13: {
+            title: "Filtrer par tags",
+            id: "US13 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux filtrer les snippets par tags, afin de trouver du code sur un sujet précis.",
+            criteria: [
+                "Liste des tags populaires",
+                "Clic sur tag pour filtrer",
+                "Nombre de snippets par tag",
+                "Combinaison de plusieurs tags"
+            ],
+            tests: []
+        },
+        us14: {
+            title: "Trier les snippets",
+            id: "US14 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux trier les snippets par popularité ou date, afin de trouver les meilleurs snippets.",
+            criteria: [
+                "Options : Plus récents / Plus populaires / Plus commentés",
+                "Tri appliqué à la liste",
+                "Indication visuelle du tri actif"
+            ],
+            tests: []
+        },
+        us15: {
+            title: "Liker un snippet",
+            id: "US15 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux liker un snippet, afin de montrer mon appréciation et sauvegarder mes favoris.",
+            criteria: [
+                "Bouton Like visible",
+                "Un like max par utilisateur/snippet",
+                "Compteur mis à jour",
+                "Indication visuelle si déjà liké",
+                "Possibilité de retirer son like"
+            ],
+            tests: [
+                "Liker un snippet",
+                "Essayer de liker deux fois (empêché)",
+                "Unlike un snippet",
+                "Vérifier contrainte unique en BDD"
+            ]
+        },
+        us16: {
+            title: "Voir mes snippets likés",
+            id: "US16 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir tous les snippets que j'ai likés, afin de retrouver facilement mes favoris.",
+            criteria: [
+                "Onglet Snippets likés sur le profil",
+                "Tous les snippets likés",
+                "Tri par date de like"
+            ],
+            tests: []
+        },
+        us17: {
+            title: "Commenter un snippet",
+            id: "US17 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux commenter un snippet, afin de poser des questions ou donner mon avis.",
+            criteria: [
+                "Zone de commentaire sur page détail",
+                "Champ texte (min 1 caractère)",
+                "Affichage immédiat après publication",
+                "Affichage : auteur, date, contenu",
+                "Compteur mis à jour"
+            ],
+            tests: [
+                "Publier commentaire vide (refuse)",
+                "Publier commentaire valide",
+                "Vérifier ordre chronologique"
+            ]
+        },
+        us18: {
+            title: "Supprimer son commentaire",
+            id: "US18 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux supprimer mes propres commentaires, afin de corriger une erreur ou retirer un message.",
+            criteria: [
+                "Bouton Supprimer uniquement sur mes commentaires",
+                "Message de confirmation",
+                "Suppression immédiate",
+                "Compteur mis à jour"
+            ],
+            tests: []
+        },
+        us19: {
+            title: "Voir mon profil",
+            id: "US19 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir mon profil avec mes statistiques, afin de suivre mon activité sur la plateforme.",
+            criteria: [
+                "Page profil accessible depuis header",
+                "Affichage : pseudo, email, date d'inscription",
+                "Statistiques : snippets créés, likes reçus, snippets likés",
+                "Onglets : Mes snippets / Snippets likés"
+            ],
+            tests: []
+        },
+        us20: {
+            title: "Voir le profil d'un autre utilisateur",
+            id: "US20 - Could Have",
+            story: "En tant qu'utilisateur authentifié, je veux voir le profil public d'un autre utilisateur, afin de découvrir ses snippets publics.",
+            criteria: [
+                "Clic sur pseudo → page profil",
+                "Affichage : pseudo, date, statistiques publiques",
+                "Liste des snippets publics",
+                "Impossibilité de voir snippets privés"
+            ],
+            tests: []
+        },
+        us21: {
+            title: "Navigation responsive",
+            id: "US21 - Must Have",
+            story: "En tant qu'utilisateur, je veux que l'interface soit utilisable sur mobile, afin d'accéder depuis mon smartphone.",
+            criteria: [
+                "Interface adaptée aux écrans 320px minimum",
+                "Menu hamburger sur mobile",
+                "Boutons minimum 48x48px",
+                "Texte lisible sans zoom",
+                "Grille 1 colonne sur mobile"
+            ],
+            tests: []
+        },
+        us22: {
+            title: "Copier le code",
+            id: "US22 - Must Have",
+            story: "En tant qu'utilisateur authentifié, je veux copier rapidement le code d'un snippet, afin de l'utiliser dans mon projet.",
+            criteria: [
+                "Bouton Copier le code sur chaque snippet",
+                "Code copié dans presse-papier en un clic",
+                "Message de confirmation Code copié !",
+                "Fonctionnement desktop et mobile"
+            ],
+            tests: []
+        },
+        us23: {
+            title: "Partager un snippet",
+            id: "US23 - Should Have",
+            story: "En tant qu'utilisateur authentifié, je veux partager le lien d'un snippet, afin de le communiquer à un collègue.",
+            criteria: [
+                "Bouton Partager sur chaque snippet",
+                "Copie de l'URL dans presse-papier",
+                "Message de confirmation",
+                "Lien fonctionne pour publics et non-répertoriés"
+            ],
+            tests: []
+        },
+        us24: {
+            title: "Gérer la visibilité",
+            id: "US24 - Must Have",
+            story: "En tant que créateur de snippet, je veux définir la visibilité de mon snippet, afin de contrôler qui peut le voir.",
+            criteria: [
+                "Choix : Public / Privé / Non-répertorié",
+                "Public : visible par tous dans Explorer",
+                "Privé : visible uniquement par moi",
+                "Non-répertorié : accessible par lien direct",
+                "Modification de visibilité après création"
+            ],
+            tests: [
+                "Snippet privé n'apparaît pas dans Explorer",
+                "Snippet non-répertorié accessible par URL",
+                "Snippet public apparaît dans Explorer"
+            ]
+        },
+        us25: {
+            title: "Sécurité des routes API",
+            id: "US25 - Must Have",
+            story: "En tant que système, je veux protéger les routes sensibles, afin de garantir la sécurité des données.",
+            criteria: [
+                "Routes création/modification/suppression : auth obligatoire",
+                "Vérification du propriétaire",
+                "Snippets privés : créateur uniquement",
+                "Validation des tokens à chaque requête",
+                "Messages 401 (non auth) et 403 (non autorisé)"
+            ],
+            tests: []
+        }
+    };
+
+    function openModal(usId) {
+        const modal = document.getElementById('modal');
+        const story = userStories[usId];
+        
+        document.getElementById('modal-title').textContent = story.title;
+        document.getElementById('modal-id').textContent = story.id;
+        
+        let bodyHTML = `
+            <div class="user-story" style="font-size: 16px; margin-bottom: 24px;">
+                ${story.story}
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-title">Critères d'acceptation</div>
+                <ul class="criteria-list">
+                    ${story.criteria.map(c => `<li class="criteria-item">${c}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        
+        if (story.tests && story.tests.length > 0) {
+            bodyHTML += `
+                <div class="tests-section">
+                    <div class="tests-title">🧪 Tests à réaliser</div>
+                    ${story.tests.map(t => `<div class="test-item">${t}</div>`).join('')}
+                </div>
+            `;
+        }
+        
+        document.getElementById('modal-body').innerHTML = bodyHTML;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event) {
+        if (!event || event.target.id === 'modal') {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    function filterCards(priority) {
+        const cards = document.querySelectorAll('.user-story-card');
+        const buttons = document.querySelectorAll('.filter-btn');
+        
+        // Update active button
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Filter cards
+        cards.forEach(card => {
+            if (priority === 'all' || card.dataset.priority === priority) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body> </html>
+

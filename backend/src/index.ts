@@ -4,7 +4,7 @@ import express from "express";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.BACKEND_PORT;
+const PORT = process.env['BACKEND_PORT'] || 3002;
 
 app.get("/api/health", (_request, response) => {
   response.json({ status: "ok", message: "Backend is runnig" });

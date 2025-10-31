@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Développement SnipShare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 20px;
+        }
+        
+        .header {
+            max-width: 1600px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #4F46E5;
+            margin-bottom: 12px;
+        }
+        
+        .header p {
+            color: #64748b;
+            font-size: 18px;
+        }
+        
+        .timeline-info {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 0 auto 32px;
+            max-width: 1600px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .timeline-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+        
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .phase-card {
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        
+        .phase-card.phase1 {
+            background: #EDE9FE;
+            border-left-color: #8B5CF6;
+        }
+        
+        .phase-card.phase2 {
+            background: #DBEAFE;
+            border-left-color: #3B82F6;
+        }
+        
+        .phase-card.phase3 {
+            background: #D1FAE5;
+            border-left-color: #10B981;
+        }
+        
+        .phase-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .phase-dates {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .sprint {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .sprint-title-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .sprint-number {
+            background: #4F46E5;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .sprint-info {
+            flex: 1;
+        }
+        
+        .sprint-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        
+        .sprint-dates {
+            color: #64748b;
+            font-size: 15px;
+        }
+        
+        .sprint-stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4F46E5;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .sprint-objective {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border-left: 4px solid #4F46E5;
+        }
+        
+        .sprint-objective-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #4F46E5;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .sprint-objective-text {
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .tasks-section {
+            margin-top: 24px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .task-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 4px solid;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .task-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateX(4px);
+        }
+        
+        .task-card.backend {
+            border-left-color: #EF4444;
+        }
+        
+        .task-card.frontend {
+            border-left-color: #3B82F6;
+        }
+        
+        .task-card.test {
+            border-left-color: #10B981;
+        }
+        
+        .task-card.devops {
+            border-left-color: #F59E0B;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 15px;
+            flex: 1;
+        }
+        
+        .task-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .task-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .task-type.backend {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+        
+        .task-type.frontend {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        .task-type.test {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .task-type.devops {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .task-time {
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        
+        .task-description {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        
+        .task-subtasks {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .subtask {
+            display: flex;
+            align-items: start;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 13px;
+            color: #475569;
+        }
+        
+        .subtask::before {
+            content: "→";
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+        
+        .us-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #EDE9FE;
+            color: #6B21A8;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        
+        .legend {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .legend-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        
+        .summary h2 {
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .summary-stat {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .summary-stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .summary-stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .sprint-header {
+                flex-direction: column;
+            }
+            
+            .task-header {
+                flex-direction: column;
+                align-items: start;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📅 Planning Développement SnipShare</h1>
+        <p>Phase 2 : Développement • 27 octobre au 7 novembre 2025</p>
+    </div>
+    
+    <div class="container">
+        <div class="timeline-info">
+            <h2>🗓️ Timeline du projet</h2>
+            <div class="phases">
+                <div class="phase-card phase1">
+                    <div class="phase-title">✅ Phase 1 : Conception</div>
+                    <div class="phase-dates">21 - 24 octobre 2025</div>
+                </div>
+                <div class="phase-card phase2">
+                    <div class="phase-title">🚀 Phase 2 : Développement</div>
+                    <div class="phase-dates">27 octobre - 7 novembre 2025</div>
+                </div>
+                <div class="phase-card phase3">
+                    <div class="phase-title">🔧 Phase 3 : Fix & Validation</div>
+                    <div class="phase-dates">4 - 7 novembre 2025</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary">
+            <h2>📊 Vue d'ensemble</h2>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="summary-stat-number">5</div>
+                    <div class="summary-stat-label">Sprints</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-number">10</div>
+                    <div class="summary-stat-label">Jours ouvrés</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-number">25</div>
+                    <div class="summary-stat-label">User Stories</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-number">80+</div>
+                    <div class="summary-stat-label">Tâches techniques</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-title">📌 Légende des types de tâches</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #EF4444;"></div>
+                    <span><strong>Backend</strong> - API, BDD, Logique métier</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3B82F6;"></div>
+                    <span><strong>Frontend</strong> - React, UI, Composants</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #10B981;"></div>
+                    <span><strong>Tests</strong> - Unitaires, Fonctionnels</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #F59E0B;"></div>
+                    <span><strong>DevOps</strong> - Docker, Configuration</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPRINT 1 -->
+        <div class="sprint">
+            <div class="sprint-header">
+                <div class="sprint-title-container">
+                    <div class="sprint-number">1</div>
+                    <div class="sprint-info">
+                        <h2 class="sprint-title">Sprint 1 - Authentification & Base</h2>
+                        <p class="sprint-dates">📅 27 - 28 octobre 2025 (2 jours)</p>
+                    </div>
+                </div>
+                <div class="sprint-stats">
+                    <div class="stat">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">16h</div>
+                        <div class="stat-label">Temps estimé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sprint-objective">
+                <div class="sprint-objective-title">🎯 Objectif du sprint</div>
+                <div class="sprint-objective-text">
+                    Mettre en place les fondations du projet : authentification complète (inscription, connexion, déconnexion) 
+                    et CRUD basique des snippets (création et visualisation). À la fin de ce sprint, un utilisateur doit pouvoir 
+                    s'inscrire, se connecter et créer/voir un snippet.
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h3 class="section-title">🔨 Tâches techniques</h3>
+                <div class="task-list">
+                    <!-- Setup -->
+                    <div class="task-card devops">
+                        <div class="task-header">
+                            <div class="task-title">T1.1 - Configuration initiale du projet</div>
+                            <div class="task-meta">
+                                <span class="task-type devops">DevOps</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Mise en place de l'architecture et des outils de base</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Initialiser projet Node.js + TypeScript (backend)</div>
+                            <div class="subtask">Initialiser projet React + TypeScript (frontend)</div>
+                            <div class="subtask">Configurer ESLint, Prettier</div>
+                            <div class="subtask">Créer structure MVC backend</div>
+                            <div class="subtask">Créer structure Atomic Design frontend</div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-card devops">
+                        <div class="task-header">
+                            <div class="task-title">T1.2 - Configuration PostgreSQL</div>
+                            <div class="task-meta">
+                                <span class="task-type devops">DevOps</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Mise en place de la base de données</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Installer PostgreSQL</div>
+                            <div class="subtask">Créer la base de données "snipshare"</div>
+                            <div class="subtask">Configurer connexion avec pg/node-postgres</div>
+                            <div class="subtask">Exécuter le script LDD (création des tables)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- US01: Inscription -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T1.3 - Backend : Inscription utilisateur</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API d'inscription avec validation et sécurité</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Créer modèle User (users table)</div>
+                            <div class="subtask">Route POST /api/auth/register</div>
+                            <div class="subtask">Validation : email unique, pseudo unique, mot de passe fort</div>
+                            <div class="subtask">Hash du mot de passe avec argon2</div>
+                            <div class="subtask">Génération du token JWT</div>
+                        </div>
+                        <span class="us-tag">US01</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T1.4 - Frontend : Page d'inscription</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Formulaire d'inscription avec validation</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant RegisterForm</div>
+                            <div class="subtask">Validation côté client (regex, confirmation mot de passe)</div>
+                            <div class="subtask">Gestion des erreurs (affichage messages)</div>
+                            <div class="subtask">Redirection après succès</div>
+                        </div>
+                        <span class="us-tag">US01</span>
+                    </div>
+                    
+                    <!-- US02: Connexion -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T1.5 - Backend : Connexion utilisateur</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de connexion avec token JWT</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route POST /api/auth/login</div>
+                            <div class="subtask">Vérification email + mot de passe</div>
+                            <div class="subtask">Génération token JWT</div>
+                            <div class="subtask">Cookie httpOnly sécurisé</div>
+                        </div>
+                        <span class="us-tag">US02</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T1.6 - Frontend : Page de connexion</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Formulaire de connexion</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant LoginForm</div>
+                            <div class="subtask">Gestion des erreurs</div>
+                            <div class="subtask">Stockage du token</div>
+                            <div class="subtask">Redirection après connexion</div>
+                        </div>
+                        <span class="us-tag">US02</span>
+                    </div>
+                    
+                    <!-- US03: Déconnexion -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T1.7 - Backend : Déconnexion</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 0.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Route de déconnexion</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route POST /api/auth/logout</div>
+                            <div class="subtask">Suppression du cookie</div>
+                        </div>
+                        <span class="us-tag">US03</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T1.8 - Frontend : Bouton déconnexion + Header</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Header avec navigation et déconnexion</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant Header</div>
+                            <div class="subtask">Bouton déconnexion</div>
+                            <div class="subtask">Gestion de l'état authentifié</div>
+                            <div class="subtask">Navigation conditionnelle</div>
+                        </div>
+                        <span class="us-tag">US03</span>
+                    </div>
+                    
+                    <!-- US05: Créer snippet -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T1.9 - Backend : Créer un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de création de snippet</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Modèle Snippet + Tag + SnippetTag</div>
+                            <div class="subtask">Route POST /api/snippets (protégée)</div>
+                            <div class="subtask">Middleware d'authentification</div>
+                            <div class="subtask">Validation : titre, code, langage, visibilité, max 5 tags</div>
+                            <div class="subtask">Association snippet → user</div>
+                        </div>
+                        <span class="us-tag">US05</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T1.10 - Frontend : Page création snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Formulaire de création complet</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant CreateSnippetForm</div>
+                            <div class="subtask">Champs : titre, code, langage, description, tags, visibilité</div>
+                            <div class="subtask">Validation côté client</div>
+                            <div class="subtask">Textarea code avec monospace</div>
+                            <div class="subtask">Redirection après création</div>
+                        </div>
+                        <span class="us-tag">US05</span>
+                    </div>
+                    
+                    <!-- US06: Voir snippet -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T1.11 - Backend : Voir un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API pour récupérer un snippet</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/snippets/:id (protégée)</div>
+                            <div class="subtask">Vérification droits d'accès (visibilité)</div>
+                            <div class="subtask">Jointures : user, tags, likes, comments</div>
+                            <div class="subtask">Compteurs likes et commentaires</div>
+                        </div>
+                        <span class="us-tag">US06</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T1.12 - Frontend : Page détail snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Affichage complet d'un snippet</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page SnippetDetail</div>
+                            <div class="subtask">Affichage code avec coloration syntaxique</div>
+                            <div class="subtask">Affichage tags, metadata, auteur</div>
+                            <div class="subtask">Compteurs likes/commentaires</div>
+                            <div class="subtask">Badge de visibilité</div>
+                        </div>
+                        <span class="us-tag">US06</span>
+                    </div>
+                    
+                    <!-- Tests Sprint 1 -->
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T1.13 - Tests : Authentification</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests unitaires et fonctionnels auth</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests unitaires : validation mot de passe, hash</div>
+                            <div class="subtask">Tests API : POST /auth/register, /auth/login, /auth/logout</div>
+                            <div class="subtask">Tests erreurs : email déjà utilisé, mot de passe faible</div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T1.14 - Tests : CRUD Snippets basique</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests création et lecture snippets</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests API : POST /snippets, GET /snippets/:id</div>
+                            <div class="subtask">Tests validation : titre requis, max 5 tags</div>
+                            <div class="subtask">Tests droits d'accès (visibilité)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPRINT 2 -->
+        <div class="sprint">
+            <div class="sprint-header">
+                <div class="sprint-title-container">
+                    <div class="sprint-number">2</div>
+                    <div class="sprint-info">
+                        <h2 class="sprint-title">Sprint 2 - CRUD Complet & Sécurité</h2>
+                        <p class="sprint-dates">📅 29 - 30 octobre 2025 (2 jours)</p>
+                    </div>
+                </div>
+                <div class="sprint-stats">
+                    <div class="stat">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">16h</div>
+                        <div class="stat-label">Temps estimé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sprint-objective">
+                <div class="sprint-objective-title">🎯 Objectif du sprint</div>
+                <div class="sprint-objective-text">
+                    Compléter le CRUD des snippets (modification, suppression, liste) et implémenter la gestion de la visibilité 
+                    avec toutes les règles de sécurité. À la fin de ce sprint, un utilisateur doit pouvoir gérer complètement 
+                    ses snippets et la sécurité des données doit être garantie.
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h3 class="section-title">🔨 Tâches techniques</h3>
+                <div class="task-list">
+                    <!-- US07: Modifier snippet -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T2.1 - Backend : Modifier un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de modification avec vérification propriétaire</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route PUT /api/snippets/:id (protégée)</div>
+                            <div class="subtask">Vérification : utilisateur = créateur</div>
+                            <div class="subtask">Mise à jour date_modification</div>
+                            <div class="subtask">Gestion des tags (ajout/suppression)</div>
+                        </div>
+                        <span class="us-tag">US07</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T2.2 - Frontend : Page modification snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Formulaire de modification pré-rempli</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant EditSnippetForm</div>
+                            <div class="subtask">Pré-remplissage des champs</div>
+                            <div class="subtask">Bouton modifier visible uniquement pour créateur</div>
+                            <div class="subtask">Confirmation après modification</div>
+                        </div>
+                        <span class="us-tag">US07</span>
+                    </div>
+                    
+                    <!-- US08: Supprimer snippet -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T2.3 - Backend : Supprimer un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de suppression en cascade</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route DELETE /api/snippets/:id (protégée)</div>
+                            <div class="subtask">Vérification : utilisateur = créateur</div>
+                            <div class="subtask">Suppression cascade : likes, comments, tags</div>
+                            <div class="subtask">Message de confirmation</div>
+                        </div>
+                        <span class="us-tag">US08</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T2.4 - Frontend : Modal de confirmation suppression</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Confirmation avant suppression</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Modal de confirmation</div>
+                            <div class="subtask">Bouton supprimer visible uniquement pour créateur</div>
+                            <div class="subtask">Redirection après suppression</div>
+                        </div>
+                        <span class="us-tag">US08</span>
+                    </div>
+                    
+                    <!-- US09: Lister snippets -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T2.5 - Backend : Lister mes snippets</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API pour récupérer les snippets de l'utilisateur</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/users/me/snippets (protégée)</div>
+                            <div class="subtask">Filtrage par user_id</div>
+                            <div class="subtask">Tous les snippets (publics, privés, non-répertoriés)</div>
+                            <div class="subtask">Tri par date décroissante</div>
+                            <div class="subtask">Jointures : tags, compteurs</div>
+                        </div>
+                        <span class="us-tag">US09</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T2.6 - Frontend : Page "Mes snippets"</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Liste de tous mes snippets</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page MySnippets</div>
+                            <div class="subtask">Composant SnippetCard réutilisable</div>
+                            <div class="subtask">Affichage grille responsive</div>
+                            <div class="subtask">Badge de visibilité</div>
+                        </div>
+                        <span class="us-tag">US09</span>
+                    </div>
+                    
+                    <!-- US24: Visibilité -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T2.7 - Backend : Gestion de la visibilité</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Logique de visibilité des snippets</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Middleware de vérification visibilité</div>
+                            <div class="subtask">Public : accessible à tous</div>
+                            <div class="subtask">Privé : uniquement créateur</div>
+                            <div class="subtask">Non-répertorié : lien direct uniquement</div>
+                            <div class="subtask">Tests des 3 cas de visibilité</div>
+                        </div>
+                        <span class="us-tag">US24</span>
+                    </div>
+                    
+                    <!-- US25: Sécurité -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T2.8 - Backend : Sécurisation des routes</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Middleware d'authentification et autorisation</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Middleware requireAuth (vérification token)</div>
+                            <div class="subtask">Middleware requireOwner (vérification propriétaire)</div>
+                            <div class="subtask">Messages d'erreur 401 et 403</div>
+                            <div class="subtask">Protection de toutes les routes sensibles</div>
+                        </div>
+                        <span class="us-tag">US25</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T2.9 - Frontend : Gestion erreurs auth</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Gestion des erreurs 401/403</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Intercepteur axios pour erreurs</div>
+                            <div class="subtask">Redirection si 401 (non authentifié)</div>
+                            <div class="subtask">Message si 403 (non autorisé)</div>
+                            <div class="subtask">Routes protégées (ProtectedRoute)</div>
+                        </div>
+                        <span class="us-tag">US25</span>
+                    </div>
+                    
+                    <!-- Tests Sprint 2 -->
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T2.10 - Tests : CRUD complet</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests modification, suppression, liste</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests PUT /snippets/:id (modifier)</div>
+                            <div class="subtask">Tests DELETE /snippets/:id (supprimer)</div>
+                            <div class="subtask">Tests GET /users/me/snippets (lister)</div>
+                            <div class="subtask">Tests erreurs : non propriétaire</div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T2.11 - Tests : Visibilité et sécurité</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests des 3 types de visibilité</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests snippet public (accessible à tous)</div>
+                            <div class="subtask">Tests snippet privé (créateur uniquement)</div>
+                            <div class="subtask">Tests snippet non-répertorié (lien direct)</div>
+                            <div class="subtask">Tests middlewares auth et owner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPRINT 3 -->
+        <div class="sprint">
+            <div class="sprint-header">
+                <div class="sprint-title-container">
+                    <div class="sprint-number">3</div>
+                    <div class="sprint-info">
+                        <h2 class="sprint-title">Sprint 3 - Recherche & Découverte</h2>
+                        <p class="sprint-dates">📅 31 octobre - 3 novembre 2025 (2 jours)</p>
+                    </div>
+                </div>
+                <div class="sprint-stats">
+                    <div class="stat">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">16h</div>
+                        <div class="stat-label">Temps estimé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sprint-objective">
+                <div class="sprint-objective-title">🎯 Objectif du sprint</div>
+                <div class="sprint-objective-text">
+                    Implémenter toutes les fonctionnalités de recherche, filtrage et tri pour permettre aux utilisateurs 
+                    de découvrir facilement les snippets publics. À la fin de ce sprint, la plateforme doit permettre 
+                    une navigation fluide et une découverte efficace du contenu.
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h3 class="section-title">🔨 Tâches techniques</h3>
+                <div class="task-list">
+                    <!-- US10: Explorer -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T3.1 - Backend : Lister snippets publics</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API pour explorer les snippets publics</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/snippets (public)</div>
+                            <div class="subtask">Filtrage : visibility = 'public'</div>
+                            <div class="subtask">Jointures : user, tags, compteurs</div>
+                            <div class="subtask">Pagination (optionnel)</div>
+                        </div>
+                        <span class="us-tag">US10</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T3.2 - Frontend : Page Explorer</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Liste de tous les snippets publics</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page Explore</div>
+                            <div class="subtask">Grille de SnippetCard</div>
+                            <div class="subtask">Affichage auteur, tags, compteurs</div>
+                            <div class="subtask">Responsive grid</div>
+                        </div>
+                        <span class="us-tag">US10</span>
+                    </div>
+                    
+                    <!-- US11: Recherche -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T3.3 - Backend : Recherche de snippets</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Recherche fulltext sur plusieurs champs</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/snippets/search?q=keyword</div>
+                            <div class="subtask">Recherche dans : title, tags, language, username</div>
+                            <div class="subtask">Opérateur ILIKE en PostgreSQL</div>
+                            <div class="subtask">Compteur de résultats</div>
+                        </div>
+                        <span class="us-tag">US11</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T3.4 - Frontend : Barre de recherche</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Composant de recherche avec résultats</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant SearchBar</div>
+                            <div class="subtask">Recherche en temps réel ou au submit</div>
+                            <div class="subtask">Affichage nombre de résultats</div>
+                            <div class="subtask">Message si aucun résultat</div>
+                        </div>
+                        <span class="us-tag">US11</span>
+                    </div>
+                    
+                    <!-- US12: Filtrer langage -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T3.5 - Backend : Filtrage par langage</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de filtrage par langage</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Paramètre query ?language=javascript</div>
+                            <div class="subtask">Support multi-langages (array)</div>
+                            <div class="subtask">Combinaison avec recherche</div>
+                        </div>
+                        <span class="us-tag">US12</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T3.6 - Frontend : Filtres langages</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Chips cliquables pour filtrer</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant LanguageFilters</div>
+                            <div class="subtask">Liste des langages (JavaScript, Python, etc.)</div>
+                            <div class="subtask">État actif/inactif</div>
+                            <div class="subtask">Mise à jour de la liste</div>
+                        </div>
+                        <span class="us-tag">US12</span>
+                    </div>
+                    
+                    <!-- US13: Filtrer tags -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T3.7 - Backend : Filtrage par tags</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de filtrage par tags</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Paramètre query ?tags=validation,regex</div>
+                            <div class="subtask">Jointure snippet_tags</div>
+                            <div class="subtask">Support multi-tags</div>
+                            <div class="subtask">Route GET /api/tags (liste populaires)</div>
+                        </div>
+                        <span class="us-tag">US13</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T3.8 - Frontend : Filtres tags</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Affichage et sélection des tags</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant TagFilters</div>
+                            <div class="subtask">Récupération tags populaires</div>
+                            <div class="subtask">Sélection multiple</div>
+                            <div class="subtask">Affichage nombre snippets par tag</div>
+                        </div>
+                        <span class="us-tag">US13</span>
+                    </div>
+                    
+                    <!-- US14: Tri -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T3.9 - Backend : Tri des snippets</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de tri multi-critères</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Paramètre ?sort=recent|popular|commented</div>
+                            <div class="subtask">Tri par date (created_at DESC)</div>
+                            <div class="subtask">Tri par likes (COUNT likes DESC)</div>
+                            <div class="subtask">Tri par commentaires (COUNT comments DESC)</div>
+                        </div>
+                        <span class="us-tag">US14</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T3.10 - Frontend : Dropdown de tri</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Sélecteur de tri</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant SortDropdown</div>
+                            <div class="subtask">Options : Plus récents, Plus populaires, Plus commentés</div>
+                            <div class="subtask">Indication visuelle du tri actif</div>
+                        </div>
+                        <span class="us-tag">US14</span>
+                    </div>
+                    
+                    <!-- Tests Sprint 3 -->
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T3.11 - Tests : Recherche et filtres</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests recherche, filtrage, tri</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests recherche par titre, tag, langage, user</div>
+                            <div class="subtask">Tests filtres langages (simple et multiple)</div>
+                            <div class="subtask">Tests filtres tags (simple et multiple)</div>
+                            <div class="subtask">Tests tri (récent, populaire, commenté)</div>
+                            <div class="subtask">Tests combinaisons filtres + recherche + tri</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPRINT 4 -->
+        <div class="sprint">
+            <div class="sprint-header">
+                <div class="sprint-title-container">
+                    <div class="sprint-number">4</div>
+                    <div class="sprint-info">
+                        <h2 class="sprint-title">Sprint 4 - Interactions Sociales</h2>
+                        <p class="sprint-dates">📅 4 novembre 2025 (1 jour)</p>
+                    </div>
+                </div>
+                <div class="sprint-stats">
+                    <div class="stat">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">8h</div>
+                        <div class="stat-label">Temps estimé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sprint-objective">
+                <div class="sprint-objective-title">🎯 Objectif du sprint</div>
+                <div class="sprint-objective-text">
+                    Ajouter les fonctionnalités sociales : likes et commentaires. Ces fonctionnalités permettent l'interaction 
+                    entre utilisateurs et enrichissent l'expérience collaborative de la plateforme.
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h3 class="section-title">🔨 Tâches techniques</h3>
+                <div class="task-list">
+                    <!-- US15: Liker -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T4.1 - Backend : Liker un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de gestion des likes</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route POST /api/snippets/:id/like (protégée)</div>
+                            <div class="subtask">Vérification : 1 like max par user/snippet (contrainte unique)</div>
+                            <div class="subtask">Route DELETE /api/snippets/:id/like (unlike)</div>
+                            <div class="subtask">Route GET /api/snippets/:id/likes (compteur + état)</div>
+                        </div>
+                        <span class="us-tag">US15</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T4.2 - Frontend : Bouton like</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Composant de like interactif</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant LikeButton</div>
+                            <div class="subtask">État liked/unliked (cœur rempli/vide)</div>
+                            <div class="subtask">Compteur en temps réel</div>
+                            <div class="subtask">Animation au clic</div>
+                        </div>
+                        <span class="us-tag">US15</span>
+                    </div>
+                    
+                    <!-- US16: Voir snippets likés -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T4.3 - Backend : Liste snippets likés</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API des snippets likés par l'utilisateur</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/users/me/liked (protégée)</div>
+                            <div class="subtask">Jointure likes → snippets</div>
+                            <div class="subtask">Tri par date de like</div>
+                        </div>
+                        <span class="us-tag">US16</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T4.4 - Frontend : Onglet snippets likés</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Affichage des favoris</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Onglet dans la page profil</div>
+                            <div class="subtask">Grille de snippets likés</div>
+                            <div class="subtask">Message si aucun like</div>
+                        </div>
+                        <span class="us-tag">US16</span>
+                    </div>
+                    
+                    <!-- US17: Commenter -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T4.5 - Backend : Commenter un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de gestion des commentaires</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route POST /api/snippets/:id/comments (protégée)</div>
+                            <div class="subtask">Validation : content non vide</div>
+                            <div class="subtask">Route GET /api/snippets/:id/comments</div>
+                            <div class="subtask">Tri chronologique (plus récents en haut)</div>
+                            <div class="subtask">Jointure avec user (auteur)</div>
+                        </div>
+                        <span class="us-tag">US17</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T4.6 - Frontend : Section commentaires</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Affichage et ajout de commentaires</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Composant CommentSection</div>
+                            <div class="subtask">Formulaire d'ajout de commentaire</div>
+                            <div class="subtask">Liste des commentaires (auteur, date, contenu)</div>
+                            <div class="subtask">Compteur de commentaires</div>
+                            <div class="subtask">Affichage en temps réel après post</div>
+                        </div>
+                        <span class="us-tag">US17</span>
+                    </div>
+                    
+                    <!-- US18: Supprimer commentaire -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T4.7 - Backend : Supprimer son commentaire</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 0.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de suppression de commentaire</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route DELETE /api/comments/:id (protégée)</div>
+                            <div class="subtask">Vérification : user = auteur du commentaire</div>
+                        </div>
+                        <span class="us-tag">US18</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T4.8 - Frontend : Bouton supprimer commentaire</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 0.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Suppression de ses propres commentaires</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Bouton visible uniquement pour auteur</div>
+                            <div class="subtask">Confirmation avant suppression</div>
+                            <div class="subtask">Mise à jour immédiate de la liste</div>
+                        </div>
+                        <span class="us-tag">US18</span>
+                    </div>
+                    
+                    <!-- Tests Sprint 4 -->
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T4.9 - Tests : Likes et commentaires</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests interactions sociales</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests like/unlike snippet</div>
+                            <div class="subtask">Tests contrainte unique (1 like max)</div>
+                            <div class="subtask">Tests post/get/delete commentaires</div>
+                            <div class="subtask">Tests validation commentaire vide</div>
+                            <div class="subtask">Tests suppression uniquement par auteur</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPRINT 5 -->
+        <div class="sprint">
+            <div class="sprint-header">
+                <div class="sprint-title-container">
+                    <div class="sprint-number">5</div>
+                    <div class="sprint-info">
+                        <h2 class="sprint-title">Sprint 5 - Profil, UX & Finitions</h2>
+                        <p class="sprint-dates">📅 5 - 7 novembre 2025 (3 jours)</p>
+                    </div>
+                </div>
+                <div class="sprint-stats">
+                    <div class="stat">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24h</div>
+                        <div class="stat-label">Temps estimé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sprint-objective">
+                <div class="sprint-objective-title">🎯 Objectif du sprint</div>
+                <div class="sprint-objective-text">
+                    Finaliser la plateforme avec le profil utilisateur, les fonctionnalités UX (responsive, copier code, partage), 
+                    la configuration Docker, et la validation complète. À la fin de ce sprint, l'application est prête pour 
+                    la démonstration et validation finale avec Philippe.
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h3 class="section-title">🔨 Tâches techniques</h3>
+                <div class="task-list">
+                    <!-- US19: Profil -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T5.1 - Backend : Profil utilisateur</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API des données de profil</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/users/me (protégée)</div>
+                            <div class="subtask">Statistiques : COUNT snippets, likes reçus, snippets likés</div>
+                            <div class="subtask">Données : pseudo, email, date_creation</div>
+                        </div>
+                        <span class="us-tag">US19</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.2 - Frontend : Page profil</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Affichage complet du profil</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page Profile</div>
+                            <div class="subtask">Avatar avec initiales</div>
+                            <div class="subtask">Statistiques (snippets, likes reçus, likés)</div>
+                            <div class="subtask">Onglets : Mes snippets / Snippets likés</div>
+                        </div>
+                        <span class="us-tag">US19</span>
+                    </div>
+                    
+                    <!-- US04: Modifier profil -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T5.3 - Backend : Modifier profil</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API de modification email/mot de passe</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route PUT /api/users/me (protégée)</div>
+                            <div class="subtask">Validation ancien mot de passe si changement</div>
+                            <div class="subtask">Validation email unique</div>
+                            <div class="subtask">Hash nouveau mot de passe</div>
+                        </div>
+                        <span class="us-tag">US04</span>
+                    </div>
+                    
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.4 - Frontend : Page paramètres</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Formulaire de modification profil</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page Settings</div>
+                            <div class="subtask">Formulaire modification email</div>
+                            <div class="subtask">Formulaire modification mot de passe</div>
+                            <div class="subtask">Messages de confirmation</div>
+                        </div>
+                        <span class="us-tag">US04</span>
+                    </div>
+                    
+                    <!-- US21: Responsive -->
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.5 - Frontend : Responsive mobile</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 3h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Adaptation mobile de toutes les pages</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Media queries pour 320px → 768px</div>
+                            <div class="subtask">Menu hamburger sur mobile</div>
+                            <div class="subtask">Grilles 1 colonne</div>
+                            <div class="subtask">Boutons min 48x48px</div>
+                            <div class="subtask">Tests sur différentes résolutions</div>
+                        </div>
+                        <span class="us-tag">US21</span>
+                    </div>
+                    
+                    <!-- US22: Copier code -->
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.6 - Frontend : Copier le code</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Fonctionnalité de copie dans le presse-papier</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Bouton "Copier le code" sur détail snippet</div>
+                            <div class="subtask">API Clipboard (navigator.clipboard)</div>
+                            <div class="subtask">Message de confirmation "Code copié !"</div>
+                            <div class="subtask">Fallback pour anciens navigateurs</div>
+                        </div>
+                        <span class="us-tag">US22</span>
+                    </div>
+                    
+                    <!-- US23: Partager -->
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.7 - Frontend : Partager un snippet</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 0.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Bouton de partage avec copie URL</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Bouton "Partager"</div>
+                            <div class="subtask">Copie de l'URL complète du snippet</div>
+                            <div class="subtask">Message de confirmation</div>
+                        </div>
+                        <span class="us-tag">US23</span>
+                    </div>
+                    
+                    <!-- US20: Profil autre user (bonus) -->
+                    <div class="task-card backend">
+                        <div class="task-header">
+                            <div class="task-title">T5.8 - Backend : Profil public (BONUS)</div>
+                            <div class="task-meta">
+                                <span class="task-type backend">Backend</span>
+                                <span class="task-time">⏱️ 1h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">API profil public d'un autre utilisateur</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Route GET /api/users/:id</div>
+                            <div class="subtask">Données publiques uniquement</div>
+                            <div class="subtask">Snippets publics de cet utilisateur</div>
+                        </div>
+                        <span class="us-tag">US20 - Could Have</span>
+                    </div>
+                    
+                    <!-- Docker -->
+                    <div class="task-card devops">
+                        <div class="task-header">
+                            <div class="task-title">T5.9 - DevOps : Configuration Docker</div>
+                            <div class="task-meta">
+                                <span class="task-type devops">DevOps</span>
+                                <span class="task-time">⏱️ 3h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Dockerisation complète de l'application</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Dockerfile backend (Node.js + TypeScript)</div>
+                            <div class="subtask">Dockerfile frontend (React build + serve)</div>
+                            <div class="subtask">docker-compose.yml : 3 services (db, backend, frontend)</div>
+                            <div class="subtask">Variables d'environnement (.env)</div>
+                            <div class="subtask">Network et volumes</div>
+                            <div class="subtask">Documentation démarrage (README)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Landing Page -->
+                    <div class="task-card frontend">
+                        <div class="task-header">
+                            <div class="task-title">T5.10 - Frontend : Landing page</div>
+                            <div class="task-meta">
+                                <span class="task-type frontend">Frontend</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Page d'accueil marketing</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Page Home avec hero section</div>
+                            <div class="subtask">Section features (6 avantages)</div>
+                            <div class="subtask">Section statistiques</div>
+                            <div class="subtask">Section CTA (Call to action)</div>
+                            <div class="subtask">Responsive design</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Documentation -->
+                    <div class="task-card devops">
+                        <div class="task-header">
+                            <div class="task-title">T5.11 - Documentation complète</div>
+                            <div class="task-meta">
+                                <span class="task-type devops">DevOps</span>
+                                <span class="task-time">⏱️ 3h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Documentation technique et utilisateur</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">README.md (installation, démarrage)</div>
+                            <div class="subtask">Documentation API (routes, paramètres, réponses)</div>
+                            <div class="subtask">Commentaires dans le code</div>
+                            <div class="subtask">Guide d'utilisation utilisateur</div>
+                            <div class="subtask">Architecture du projet (diagrammes)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tests finaux -->
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T5.12 - Tests : Profil et UX</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 1.5h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Tests des dernières fonctionnalités</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Tests GET /users/me (profil)</div>
+                            <div class="subtask">Tests PUT /users/me (modification)</div>
+                            <div class="subtask">Tests statistiques (compteurs)</div>
+                            <div class="subtask">Tests responsive (simulateur mobile)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-card test">
+                        <div class="task-header">
+                            <div class="task-title">T5.13 - Rapport de tests complet</div>
+                            <div class="task-meta">
+                                <span class="task-type test">Tests</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Génération et analyse du rapport</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Exécution de tous les tests</div>
+                            <div class="subtask">Génération du rapport de couverture</div>
+                            <div class="subtask">Vérification 80% minimum</div>
+                            <div class="subtask">Captures d'écran des résultats</div>
+                            <div class="subtask">Document récapitulatif pour Philippe</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Validation finale -->
+                    <div class="task-card devops">
+                        <div class="task-header">
+                            <div class="task-title">T5.14 - Validation finale et démo</div>
+                            <div class="task-meta">
+                                <span class="task-type devops">DevOps</span>
+                                <span class="task-time">⏱️ 2h</span>
+                            </div>
+                        </div>
+                        <div class="task-description">Préparation de la présentation</div>
+                        <div class="task-subtasks">
+                            <div class="subtask">Checklist complète des fonctionnalités</div>
+                            <div class="subtask">Tests de bout en bout (E2E)</div>
+                            <div class="subtask">Captures d'écran de toutes les pages</div>
+                            <div class="subtask">Vidéo de démonstration (optionnel)</div>
+                            <div class="subtask">Préparation présentation pour Philippe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Résumé final -->
+        <div style="background: white; padding: 40px; border-radius: 12px; margin-top: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <h2 style="font-size: 28px; font-weight: 700; color: #1e293b; margin-bottom: 24px; text-align: center;">
+                📊 Résumé du Planning
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 32px;">
+                <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                    <div style="font-size: 36px; font-weight: 700; color: #4F46E5;">80h</div>
+                    <div style="color: #64748b; margin-top: 4px;">Temps total estimé</div>
+                </div>
+                <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                    <div style="font-size: 36px; font-weight: 700; color: #EF4444;">40h</div>
+                    <div style="color: #64748b; margin-top: 4px;">Backend</div>
+                </div>
+                <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                    <div style="font-size: 36px; font-weight: 700; color: #3B82F6;">30h</div>
+                    <div style="color: #64748b; margin-top: 4px;">Frontend</div>
+                </div>
+                <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                    <div style="font-size: 36px; font-weight: 700; color: #10B981;">10h</div>
+                    <div style="color: #64748b; margin-top: 4px;">Tests & DevOps</div>
+                </div>
+            </div>
+            
+            <div style="background: #FEF3C7; padding: 20px; border-radius: 8px; border-left: 4px solid #F59E0B; margin-bottom: 24px;">
+                <div style="font-weight: 700; color: #92400E; margin-bottom: 8px;">⚠️ Points d'attention</div>
+                <ul style="margin-left: 20px; color: #78350F; line-height: 1.8;">
+                    <li>Respecter l'ordre des sprints (dépendances techniques)</li>
+                    <li>Tester au fur et à mesure (pas attendre la fin)</li>
+                    <li>Documenter le code pendant le développement</li>
+                    <li>Commiter régulièrement (git)</li>
+                    <li>Valider avec Philippe après chaque sprint</li>
+                </ul>
+            </div>
+            
+            <div style="background: #DBEAFE; padding: 20px; border-radius: 8px; border-left: 4px solid #3B82F6;">
+                <div style="font-weight: 700; color: #1E40AF; margin-bottom: 8px;">💡 Conseils</div>
+                <ul style="margin-left: 20px; color: #1E3A8A; line-height: 1.8;">
+                    <li>Commencer par les Must Have (priorité absolue)</li>
+                    <li>Le Sprint 5 contient une marge pour les imprévus</li>
+                    <li>Les Should Have peuvent être reportés si nécessaire</li>
+                    <li>US20 (profil public) est optionnel (Could Have)</li>
+                    <li>Phase 3 (4-7 nov) = corrections + validation finale</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 2px solid #e2e8f0;">
+                <p style="font-size: 18px; font-weight: 600; color: #4F46E5; margin-bottom: 8px;">
+                    🎯 Objectif : Application complète et fonctionnelle pour le 7 novembre 2025
+                </p>
+                <p style="color: #64748b;">
+                    Prêt pour la validation finale avec Philippe Lambert 📝
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
