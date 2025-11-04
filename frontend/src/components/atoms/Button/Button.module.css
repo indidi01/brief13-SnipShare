@@ -1,0 +1,83 @@
+/* frontend/src/components/atoms/Button/Button.module.css */
+
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Variant Primary */
+.primary {
+  background-color: var(--primary-500);
+  color: white;
+  border: 2px solid var(--primary-500);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Variant Secondary */
+.secondary {
+  background-color: var(--neutral-600);
+  color: white;
+  border: 2px solid var(--neutral-600);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--neutral-700);
+  border-color: var(--neutral-700);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Variant Outline */
+.outline {
+  background-color: transparent;
+  color: var(--primary-500);
+  border: 2px solid var(--primary-500);
+}
+
+.outline:hover:not(:disabled) {
+  background-color: var(--primary-500);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.outline:active:not(:disabled) {
+  transform: translateY(0);
+}
