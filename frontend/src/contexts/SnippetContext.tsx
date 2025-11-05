@@ -112,7 +112,7 @@ export const SnippetProvider: React.FC<SnippetProviderProps> = ({ children }) =>
           snippet.snippets_id === snippetId
             ? {
                 ...snippet,
-                Components: [...(snippet.comments || []), newComment],
+                comments: [...(snippet.comments || []), newComment],
               }
             : snippet
         )

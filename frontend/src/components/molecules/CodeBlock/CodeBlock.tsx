@@ -1,59 +1,60 @@
-// frontend/src/components/molecules/SearchBar/SearchBar.tsx
-import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
-import { Input } from '../../atoms/Input/Input';
+// frontend/src/components/molecules/CodeBlock/CodeBlock.tsx
+import React from 'react';
 import { Button } from '../../atoms/Button/Button';
-import styles from './SearchBar.module.css';
+import { Copy } from 'lucide-react';
+import styles from './CodeBlock.module.css';
 
-export interface SearchBarProps {
-  placeholder?: string;
-  onSearch: (query: string) => void;
-  className?: string;
+export interface CodeBlockProps {
+  code: string;
+  language: string;
+  showLineNumbers?: boolean;
+  maxHeight?: string;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({
-  placeholder = 'Rechercher des snippets...',
-  onSearch,
-  className = '',
+export const CodeBlock: React.FC<CodeBlockProps> = ({
+  code,
+  language,
+  showLineNumbers = false,
+  maxHeight,
 }) => {
-  const [query, setQuery] = useState('');
+  const lines = code.split('\n');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(query);
-  };
-
-  const handleClear = () => {
-    setQuery('');
-    onSearch('');
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`${styles.searchBar} ${className}`}>
-      <Input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={placeholder}
-        icon={<Search size={20} />}
-        fullWidth
-        className={styles.input}
-      />
-      
-      {query && (
+    <div className={styles.codeBlock}>
+      <div className={styles.header}>
+        <span className={styles.language}>{language}</span>
         <Button
-          type="button"
           variant="ghost"
-          onClick={handleClear}
-          className={styles.clearButton}
+          size="sm"
+          onClick={handleCopy}
+          icon={<Copy size={16} />}
         >
-          <X size={20} />
+          Copier
         </Button>
-      )}
+      </div>
       
-      <Button type="submit" variant="primary">
-        Rechercher
-      </Button>
-    </form>
+      <div className={styles.codeWrapper} style={{ maxHeight }}>
+        <pre className={styles.pre}>
+          {showLineNumbers ? (
+            <div className={styles.withLineNumbers}>
+              <div className={styles.lineNumbers}>
+                {lines.map((_, index) => (
+                  <span key={index} className={styles.lineNumber}>
+                    {index + 1}
+                  </span>
+                ))}
+              </div>
+              <code className={styles.codeContent}>{code}</code>
+            </div>
+          ) : (
+            <code className={styles.code}>{code}</code>
+          )}
+        </pre>
+      </div>
+    </div>
   );
 };
