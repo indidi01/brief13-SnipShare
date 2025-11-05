@@ -1,5 +1,5 @@
 // src/services/api.ts
-import { User, Snippet, Comment, Tag, CreateSnippetData, LoginData, RegisterData } from '../types';
+import type { User, Snippet, Comment, Tag, CreateSnippetData, LoginData, RegisterData } from '../types';
 
 // Données mockées basées sur le schéma BDD
 let mockUsers: User[] = [
