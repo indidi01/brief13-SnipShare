@@ -45,7 +45,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     
     // Ajouter la nouvelle classe (sauf pour light qui est par défaut)
     if (theme !== 'light') {
-      document.body.classList.add(`theme-${theme}`); // ✅ CORRIGÉ : Syntaxe template literal fixée
+      document.body.classList.add(`theme-${theme}`);
     }
     
     // Sauvegarder dans localStorage

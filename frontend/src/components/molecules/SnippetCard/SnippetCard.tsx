@@ -4,9 +4,9 @@ import { Heart, MessageCircle, Share2, Eye } from 'lucide-react';
 import { Avatar } from '../../atoms/Avatar/Avatar';
 import { Tag } from '../../atoms/Tag/Tag';
 import { Button } from '../../atoms/Button/Button';
-// import { CodeBlock } from '../CodeBlock/CodeBlock';
 import type { Snippet } from '../../../types';
 import styles from './SnippetCard.module.css';
+import { CodeBlock } from '../CodeBlock/CodeBlock';
 
 export interface SnippetCardProps {
   snippet: Snippet;
@@ -70,11 +70,11 @@ export const SnippetCard: React.FC<SnippetCardProps> = ({
       )}
 
       {/* Code */}
-      {/* <CodeBlock
+      <CodeBlock
         code={snippet.code}
         language={snippet.langage}
         maxHeight="300px"
-      /> */}
+      />
 
       {/* Tags */}
       {snippet.tags && snippet.tags.length > 0 && (
