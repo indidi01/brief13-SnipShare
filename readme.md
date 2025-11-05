@@ -10,6 +10,9 @@
 ███████║██║ ╚████║██║██║     ███████║██║  ██║██║  ██║██║  ██║███████╗
 ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
 ```
+</div>
+
+<div align="center">
 
 ### 📝 Plateforme de partage de snippets de code
 
@@ -425,21 +428,10 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 Développé avec ❤️ par **[Votre Nom]** dans le cadre de la formation Simplon.
 
-### Contact
-
-- 🌐 Portfolio : [votre-site.com](https://votre-site.com)
-- 💼 LinkedIn : [Votre profil](https://linkedin.com/in/votre-profil)
-- 📧 Email : votre.email@exemple.com
-- 🐙 GitHub : [@votre-username](https://github.com/votre-username)
-
----
 
 ## 🙏 Remerciements
 
 - **Simplon** - Pour la formation et l'accompagnement
-- **Brad Frost** - Pour la méthodologie Atomic Design
-- La communauté **React** et **TypeScript**
-- Tous les contributeurs open-source
 
 ---
 

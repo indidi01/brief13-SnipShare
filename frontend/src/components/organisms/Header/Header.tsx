@@ -1,5 +1,6 @@
 // frontend/src/components/organisms/Header/Header.tsx
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { Button } from '../../atoms/Button/Button';
 import styles from './Header.module.css';
@@ -12,22 +13,22 @@ export const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         {/* Logo */}
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <span className={styles.logoIcon}>{'</>'}</span>
           <h1 className={styles.logoText}>SnipShare</h1>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className={styles.nav}>
-          <a href="/" className={styles.navLink}>
+          <Link to="/" className={styles.navLink}>
             Accueil
-          </a>
-          <a href="/explore" className={styles.navLink}>
+          </Link>
+          <Link to="/explore" className={styles.navLink}>
             Explorer
-          </a>
-          <a href="/create" className={styles.navLink}>
+          </Link>
+          <Link to="/create" className={styles.navLink}>
             Créer
-          </a>
+          </Link>
         </nav>
 
         {/* Theme Selector */}

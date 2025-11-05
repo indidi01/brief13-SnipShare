@@ -1,33 +1,47 @@
-import React from "react";
-import styles from "./Button.module.css";
+// frontend/src/components/atoms/Button/Button.tsx
+import React from 'react';
+import styles from './Button.module.css';
 
-interface ButtonProps {
-  variant?: "primary" | "secondary" | "outline";
-  children: React.ReactNode;
-  onClick?: () => void;
-  type?: "button" | "submit" | "reset";
-  disabled?: boolean;
-  className?: string;
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  icon?: React.ReactNode;
+  loading?: boolean;
+  children?: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  variant = "primary",
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  icon,
+  loading = false,
   children,
-  onClick,
-  type = "button",
-  disabled = false,
-  className = "",
+  className = '',
+  disabled,
+  ...props
 }) => {
-  const buttonClass = `${styles.button} ${styles[variant]} ${className}`.trim();
+  const buttonClass = [
+    styles.button,
+    styles[variant],
+    styles[size],
+    fullWidth && styles.fullWidth,
+    loading && styles.loading,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button
-      type={type}
       className={buttonClass}
-      onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
+      {...props}
     >
+      {icon && <span className={styles.icon}>{icon}</span>}
       {children}
+      {loading && <span className={styles.spinner}>⏳</span>}
     </button>
   );
 };

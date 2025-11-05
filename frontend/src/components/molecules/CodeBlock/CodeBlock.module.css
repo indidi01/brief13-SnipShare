@@ -1,0 +1,88 @@
+/* frontend/src/components/molecules/CodeBlock/CodeBlock.module.css */
+
+.codeBlock {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.language {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.codeWrapper {
+  overflow: auto;
+}
+
+.pre {
+  margin: 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: var(--bg-card);
+}
+
+.code {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  color: var(--text-primary);
+  display: block;
+}
+
+.withLineNumbers {
+  display: flex;
+  gap: 1rem;
+}
+
+.lineNumbers {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-tertiary);
+  user-select: none;
+  text-align: right;
+  padding-right: 1rem;
+  border-right: 1px solid var(--border-light);
+}
+
+.lineNumber {
+  line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+.codeContent {
+  flex: 1;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Custom scrollbar for code */
+.codeWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.codeWrapper::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.codeWrapper::-webkit-scrollbar-thumb {
+  background: var(--neutral-400);
+  border-radius: 4px;
+}
+
+.codeWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-500);
+}
