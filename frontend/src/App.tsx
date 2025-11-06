@@ -3,9 +3,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { SnippetProvider } from './contexts/SnippetContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
+// Pages
 import { Home } from './components/pages/Home/HomePage';
 import { ExplorerPage } from './components/pages/Explorer/ExplorerPage';
 import { CreatePage } from './components/pages/CreatePage/CreatePage';
+import { SnippetDetailPage } from './components/pages/SnippetDetail/SnippetDetailPage';
+import { ProfilePage } from './components/pages/Profile/ProfilePage'
+import { LoginPage } from './components/pages/Login/LoginPage';
+import { RegisterPage } from './components/pages/Register/RegisterPage';
+import { NotFoundPage } from './components/pages/NotFound/NotFoundPage';
+
 import './App.css';
 
 function App() {
@@ -15,9 +24,41 @@ function App() {
         <SnippetProvider>
           <BrowserRouter>
             <Routes>
+              {/* Routes publiques */}
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<ExplorerPage />} />
-              <Route path="/create" element={<CreatePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/snippet/:id" element={<SnippetDetailPage />} />
+              
+              {/* Routes protégées (nécessitent une authentification) */}
+              <Route
+                path="/create"
+                element={
+                  <ProtectedRoute>
+                    <CreatePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile/:userId"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Route 404 - doit être en dernier */}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>
         </SnippetProvider>
