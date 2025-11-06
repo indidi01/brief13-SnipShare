@@ -26,6 +26,12 @@
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.logo:hover {
+  transform: translateY(-1px);
 }
 
 .logoIcon {
@@ -45,7 +51,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   flex: 1;
   justify-content: center;
 }
@@ -56,11 +62,19 @@
   transition: var(--transition);
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
+  text-decoration: none;
 }
 
 .navLink:hover {
   color: var(--primary-500);
   background: var(--bg-secondary);
+}
+
+/* Right Section */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* Theme Selector */
@@ -114,11 +128,145 @@
   font-size: 1.25rem;
 }
 
+/* User Section */
+.userSection {
+  position: relative;
+}
+
+.userButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.userButton:hover {
+  background: var(--bg-secondary);
+  border-color: var(--primary-500);
+}
+
+.userName {
+  font-size: 0.95rem;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userMenu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 0.75rem;
+  min-width: 260px;
+  z-index: 1000;
+}
+
+.userMenuHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+}
+
+.userMenuInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.userMenuName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userMenuEmail {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userMenuDivider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 0.5rem 0;
+}
+
+.userMenuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.userMenuItem:hover {
+  background: var(--bg-secondary);
+}
+
+.userMenuItem.logout {
+  color: var(--danger-500);
+}
+
+.userMenuItem.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Auth Buttons */
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 /* Responsive */
+@media (max-width: 1024px) {
+  .userName {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     flex-wrap: wrap;
     gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    order: 1;
+  }
+
+  .rightSection {
+    order: 2;
+    gap: 0.5rem;
   }
 
   .nav {
@@ -126,6 +274,8 @@
     flex-basis: 100%;
     justify-content: space-around;
     gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-light);
   }
 
   .navLink {
@@ -133,7 +283,35 @@
     font-size: 0.875rem;
   }
 
-  .themeSelector {
-    order: 2;
+  .themeButton,
+  .authButtons button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+  }
+
+  .themeMenu,
+  .userMenu {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    display: none;
+  }
+
+  .authButtons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .authButtons button {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .authButtons button span {
+    display: none;
   }
 }
