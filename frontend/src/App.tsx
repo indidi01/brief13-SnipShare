@@ -12,7 +12,7 @@ import { CreatePage } from './components/pages/CreatePage/CreatePage';
 import { SnippetDetailPage } from './components/pages/SnippetDetail/SnippetDetailPage';
 import { ProfilePage } from './components/pages/Profile/ProfilePage'
 import { LoginPage } from './components/pages/Login/LoginPage';
-import { RegisterPage } from './components/pages/Register/RegisterPage';
+
 import { NotFoundPage } from './components/pages/NotFound/NotFoundPage';
 
 import './App.css';
@@ -28,7 +28,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<ExplorerPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+
               <Route path="/snippet/:id" element={<SnippetDetailPage />} />
               
               {/* Routes protégées (nécessitent une authentification) */}

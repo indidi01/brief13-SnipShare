@@ -161,16 +161,34 @@
 }
 
 .userMenu {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  padding: 0.75rem;
-  min-width: 260px;
-  z-index: 1000;
+display:flex;
+align-items: center;
+gap: 1rem;
+}
+
+.userMenuItem.active {
+  background: var(--primary-500);
+  color: white;
+}
+
+.userMenuItem.active:hover {
+  background: var(--primary-600);
+  color: white;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.userProfile:hover {
+  background: var(--bg-secondary);
 }
 
 .userMenuHeader {
@@ -295,6 +313,36 @@
     right: 0;
   }
 }
+
+.themeOptions {
+  padding: 0.5rem;
+}
+
+.themeOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.themeOption:hover {
+  background: var(--bg-secondary);
+}
+
+.themeOption.active {
+  background: var(--primary-500);
+  color: white;
+}
+
 
 @media (max-width: 480px) {
   .logoText {
