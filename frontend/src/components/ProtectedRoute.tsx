@@ -1,6 +1,5 @@
-// frontend/src/components/ProtectedRoute.tsx
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+// frontend/src/components/ProtectedRoute.tsx - VERSION CORRIGÉE
+import React, { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
@@ -8,7 +7,14 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, setAuthModalOpen } = useAuth();
+
+  useEffect(() => {
+    // Si l'utilisateur n'est pas authentifié et n'est pas en train de charger, ouvrir la modal
+    if (!isLoading && !isAuthenticated) {
+      setAuthModalOpen(true);
+    }
+  }, [isAuthenticated, isLoading, setAuthModalOpen]);
 
   // Afficher un loader pendant la vérification de l'authentification
   if (isLoading) {
@@ -26,11 +32,22 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     );
   }
 
-  // Rediriger vers la page de connexion si non authentifié
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  // Afficher le contenu de la route si authentifié
+  if (isAuthenticated) {
+    return <>{children}</>;
   }
 
-  // Afficher le contenu de la route si authentifié
-  return <>{children}</>;
+  // Si non authentifié, afficher un message en attendant que la modal s'ouvre
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '50vh',
+      fontSize: '1.125rem',
+      color: 'var(--text-secondary)'
+    }}>
+      Veuillez vous connecter pour accéder à cette page...
+    </div>
+  );
 };

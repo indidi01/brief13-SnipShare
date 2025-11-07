@@ -8,6 +8,8 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  authModalOpen: boolean;
+  setAuthModalOpen: (open: boolean) => void;
   login: (credentials: LoginData) => Promise<void>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => void;
@@ -23,6 +25,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   // Charger l'utilisateur depuis localStorage au montage
   useEffect(() => {
@@ -46,6 +49,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Sauvegarder dans localStorage
       localStorage.setItem('snipshare-token', response.token);
       localStorage.setItem('snipshare-user', JSON.stringify(response.user));
+      
+      // Fermer la modal après connexion réussie
+      setAuthModalOpen(false);
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
       throw error;
@@ -61,6 +67,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Sauvegarder dans localStorage
       localStorage.setItem('snipshare-token', response.token);
       localStorage.setItem('snipshare-user', JSON.stringify(response.user));
+      
+      // Fermer la modal après inscription réussie
+      setAuthModalOpen(false);
     } catch (error) {
       console.error('Erreur lors de l\'inscription:', error);
       throw error;
@@ -79,6 +88,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     token,
     isAuthenticated: !!user && !!token,
     isLoading,
+    authModalOpen,
+    setAuthModalOpen,
     login,
     register,
     logout,

@@ -99,6 +99,41 @@
   text-decoration: underline;
 }
 
+.switchLink {
+  color: var(--primary-500);
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  transition: var(--transition);
+}
+
+.switchLink:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.forgotLink {
+  color: var(--primary-500);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.forgotLink:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .card {
     padding: 2rem 1.5rem;

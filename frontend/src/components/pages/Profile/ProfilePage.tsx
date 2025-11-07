@@ -7,8 +7,9 @@ import { Button } from '../../atoms/Button/Button';
 import { SnippetCard } from '../../molecules/SnippetCard/SnippetCard';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSnippets } from '../../../contexts/SnippetContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import type { Snippet } from '../../../types';
-import { Settings, LogOut, Code, Heart, Calendar } from 'lucide-react';
+import { LogOut, Code, Heart, Calendar, Palette } from 'lucide-react';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage: React.FC = () => {
@@ -16,10 +17,12 @@ export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { snippets, toggleLike } = useSnippets();
+  const { theme, setTheme, themes } = useTheme();
   
   const [activeTab, setActiveTab] = useState<'my-snippets' | 'liked'>('my-snippets');
   const [userSnippets, setUserSnippets] = useState<Snippet[]>([]);
   const [likedSnippets, setLikedSnippets] = useState<Snippet[]>([]);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
 
   useEffect(() => {
     loadUserData();
@@ -50,6 +53,11 @@ export const ProfilePage: React.FC = () => {
     } catch (error) {
       console.error('Erreur lors du like:', error);
     }
+  };
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
+    setThemeMenuOpen(false);
   };
 
   const handleSnippetClick = (id: string) => {
@@ -101,13 +109,36 @@ export const ProfilePage: React.FC = () => {
           </div>
 
           <div className={styles.profileActions}>
-            <Button
-              variant="outline"
-              icon={<Settings size={18} />}
-              onClick={() => navigate('/settings')}
-            >
-              Paramètres
-            </Button>
+            {/* Sélecteur de thème */}
+            <div className={styles.themeSelector}>
+              <Button
+                variant="outline"
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+                icon={<Palette size={18} />}
+              >
+                Thème
+              </Button>
+
+              {themeMenuOpen && (
+                <div className={styles.themeMenu}>
+                  <div className={styles.themeOptions}>
+                    {themes.map((themeOption) => (
+                      <button
+                        key={themeOption.name}
+                        className={`${styles.themeOption} ${
+                          theme === themeOption.name ? styles.active : ''
+                        }`}
+                        onClick={() => handleThemeChange(themeOption.name)}
+                      >
+                        <span className={styles.themeIcon}>{themeOption.icon}</span>
+                        <span>{themeOption.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Button
               variant="danger"
               icon={<LogOut size={18} />}
